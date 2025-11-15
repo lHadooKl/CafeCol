@@ -8,7 +8,9 @@ com\cafecol\resources\CarritoResource$CarritoDTO.class
 com\cafecol\resources\PedidoResource.class
 com\cafecol\service\DetallePedidoService.class
 com\cafecol\resources\DetallePedidoResource$ApiError.class
+com\cafecol\resources\NotificacionResource.class
 com\cafecol\resources\PedidoResource$ApiResponse.class
+com\cafecol\service\NotificacionService.class
 com\cafecol\entities\Producto.class
 com\cafecol\entities\DetallePedido.class
 com\cafecol\resources\ProductoResource$ApiError.class
@@ -22,6 +24,7 @@ com\cafecol\resources\CarritoResource$UpdateItemReq.class
 com\cafecol\service\PedidoService.class
 com\cafecol\resources\PedidoResource$ApiError.class
 com\cafecol\web\AuthFilter.class
+com\cafecol\resources\PedidoResource$EstadoDTO.class
 com\cafecol\resources\DetallePedidoResource.class
 com\cafecol\resources\EpaycoResource.class
 com\cafecol\entities\CarritoItem.class
@@ -30,8 +33,10 @@ com\cafecol\resources\AuthResource$Credenciales.class
 com\cafecol\resources\ClienteResource.class
 com\cafecol\resources\ProductoResource.class
 com\cafecol\service\CarritoService.class
+com\cafecol\service\NotificacionService$1.class
 com\cafecol\sistemacafecol\JakartaRestConfiguration.class
 com\cafecol\resources\ProductoResource$StockUpdateRequest.class
 com\cafecol\entities\Cliente.class
 com\cafecol\resources\UsuarioResource.class
 com\cafecol\entities\Usuario.class
+com\cafecol\resources\NotificacionResource$EmailNotificacionDTO.class

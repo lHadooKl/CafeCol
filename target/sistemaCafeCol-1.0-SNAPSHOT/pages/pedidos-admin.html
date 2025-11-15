@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="es" data-bs-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CafeCol · Pedidos (Admin)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/css/adminCss.css?v=1.0.0" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="index_admin.html">CafeCol · Admin</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMain">
+        <div class="ms-auto d-flex align-items-center gap-3">
+          <button id="btnLogout" class="btn btn-outline-light">Cerrar sesión</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="container py-5">
+    <div class="d-flex align-items-center justify-content-between p-4 bg-white rounded-3 shadow-sm mb-4">
+      <div>
+        <h1 class="h4 mb-1">Gestión de pedidos</h1>
+        <p class="text-muted mb-0">Revisa y gestiona el estado de los pedidos.</p>
+      </div>
+    </div>
+
+    <div id="pedidosAlert" class="alert alert-danger d-none" role="alert">
+      No se pudieron cargar los pedidos.
+    </div>
+    
+    <div class="card bg-white rounded- shadow-sm p-4 mb-4" style="height:420px; min-height: 200px; margin-bottom: 10%;">
+      <canvas id="chartPedidosEstado" height="150"></canvas>
+    </div>
+
+    
+    <!-- Listas segmentadas por estado -->
+    <div class="mb-4" id="seccionPendiente">
+      <h5 class="mb-3">Pendientes</h5>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="cardsPendiente"></div>
+    </div>
+    <div class="mb-4" id="seccionAceptado">
+      <h5 class="mb-3">Aceptados</h5>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="cardsAceptado"></div>
+    </div>
+    <div class="mb-4" id="seccionGestionado">
+      <h5 class="mb-3">Gestionados</h5>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="cardsGestionado"></div>
+    </div>
+    <div class="mb-4" id="seccionCerrado">
+      <h5 class="mb-3">Cerrados</h5>
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="cardsCerrado"></div>
+    </div>
+  </main>
+
+  <!-- Modal: Gestionar pedido -->
+  <div class="modal fade" id="modalPedido" tabindex="-1" aria-labelledby="modalPedidoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content shadow">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalPedidoLabel">Pedido</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Resumen -->
+          <div class="mb-3">
+            <div class="d-flex flex-wrap gap-3">
+              <div><span class="text-muted">ID:</span> <strong id="pId">—</strong></div>
+              <div><span class="text-muted">Cliente:</span> <strong id="pCliente">—</strong></div>
+              <div><span class="text-muted">Fecha:</span> <strong id="pFecha">—</strong></div>
+              <div><span class="text-muted">Total:</span> <strong id="pTotal">—</strong></div>
+              <div><span class="text-muted">Estado:</span> <span class="badge bg-secondary" id="pEstado">—</span></div>
+            </div>
+          </div>
+          <!-- Detalle -->
+          <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+              <h6 class="mb-2">Detalle del pedido</h6>
+              <div class="table-responsive">
+                <table class="table table-sm align-middle">
+                  <thead class="table-dark">
+                    <tr>
+                      <th>Producto</th>
+                      <th class="text-end">Cantidad</th>
+                      <th class="text-end">P. Unit.</th>
+                      <th class="text-end">Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody id="detalleTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- Gestión de estado -->
+          <form id="formGestion" class="row g-3 needs-validation" novalidate>
+            <div class="col-md-6">
+              <label class="form-label">Estado</label>
+              <select id="selEstado" class="form-select" required>
+                <option value="">Selecciona…</option>
+                <option value="ACEPTADO">ACEPTADO</option>
+                <option value="GESTIONADO">GESTIONADO</option>
+                <option value="CERRADO">CERRADO</option>
+              </select>
+              <div class="invalid-feedback">Selecciona un estado.</div>
+            </div>
+            <div class="col-md-6 d-none" id="grupoGuia">
+              <label class="form-label">Número de guía</label>
+              <input type="text" id="numGuia" class="form-control" minlength="4" placeholder="Ej: CO-123456">
+              <div class="form-text">Requerido para notificar estado GESTIONADO.</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button id="btnGuardarEstado" type="button" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../assets/js/api-config.js"></script>
+  <script src="../assets/js/admin-guard.js"></script>
+  <script src="../assets/js/pedidos-admin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

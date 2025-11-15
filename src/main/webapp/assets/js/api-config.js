@@ -60,7 +60,17 @@
     getById: (id) => `${API_BASE_URL}/pedidos/${id}`,
     create: `${API_BASE_URL}/pedidos`,
     update: (id) => `${API_BASE_URL}/pedidos/${id}`,
-    delete: (id) => `${API_BASE_URL}/pedidos/${id}`
+    delete: (id) => `${API_BASE_URL}/pedidos/${id}`,
+    // Nuevo: actualizar solo estado (y opcionalmente guía si se soporta)
+    updateEstado: (id) => `${API_BASE_URL}/pedidos/${id}/estado`
+  };
+
+  // ===========================
+  // Notificaciones (correo)
+  // ===========================
+  window.NOTIFICACIONES_API = {
+    // Nuevo: correo al pasar pedido a GESTIONADO
+    pedidoGestionado: `${API_BASE_URL}/notificaciones/pedido-gestionado`
   };
 
   // ===========================

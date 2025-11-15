@@ -9,7 +9,10 @@
 
   if (!canvas) return;
 
-  // Normaliza posibles URL tipo ".../index_admin.html/api/detalles-pedido" -> "/api/detalles-pedido"
+  // Paleta verde consistente con el tema
+  const GREEN_BG = 'rgba(20, 184, 106, 0.6)';   // #14b86a con 60% [coincide con CSS]
+  const GREEN_BORDER = 'rgba(20, 184, 106, 1)';
+
   function normalizeApiUrl(u) {
     try {
       const url = new URL(u, window.location.origin);
@@ -43,7 +46,6 @@
     return [];
   }
 
-  // Agregación por producto: suma unidades y valor
   function aggregateByProduct(detalles) {
     const acc = new Map();
     for (const d of detalles) {
@@ -67,10 +69,10 @@
 
   function setWrapperHeightForRows(wrapperEl, rowsCount) {
     if (!wrapperEl) return;
-    const base = 80;     // padding, títulos, etc.
-    const perRow = 36;   // grosor de barra + separación
-    const maxH = 600;    // altura máxima
-    const minH = 220;    // altura mínima
+    const base = 80;
+    const perRow = 36;
+    const maxH = 600;
+    const minH = 220;
     const h = Math.max(minH, Math.min(maxH, base + perRow * rowsCount));
     wrapperEl.style.height = `${h}px`;
   }
@@ -85,14 +87,10 @@
     const labels = sorted.map(r => r.nombre);
     const data   = sorted.map(r => Math.round(r[metric] || 0));
 
-    // Ajusta la altura del wrapper segun la cantidad de barras
     setWrapperHeightForRows(wrapper, labels.length);
-
     emptyEl?.classList.toggle('d-none', data.length > 0);
 
     const datasetLabel = metric === 'valor' ? 'Valor (COP)' : 'Unidades';
-    const bg = metric === 'valor' ? 'rgba(54, 162, 235, 0.6)' : 'rgba(75, 192, 192, 0.6)';
-    const border = metric === 'valor' ? 'rgba(54, 162, 235, 1)' : 'rgba(75, 192, 192, 1)';
 
     const cfg = {
       type: 'bar',
@@ -101,8 +99,8 @@
         datasets: [{
           label: datasetLabel,
           data,
-          backgroundColor: bg,
-          borderColor: border,
+          backgroundColor: GREEN_BG,   // siempre verde
+          borderColor: GREEN_BORDER,
           borderWidth: 1,
           maxBarThickness: 32
         }]
@@ -110,11 +108,29 @@
       options: {
         indexAxis: 'y',
         responsive: true,
-        maintainAspectRatio: false,  // el wrapper define la altura
-        resizeDelay: 100,            // debouncing de resize opcional
+        maintainAspectRatio: false,
+        resizeDelay: 100,
         scales: {
-          x: { beginAtZero: true, ticks: { precision: 0 } },
-          y: { ticks: { autoSkip: false } }
+          x: {
+            beginAtZero: true,
+            ticks: {
+              color: '#e8ecf1', // texto claro sobre oscuro
+              precision: 0,
+              callback: (value) => (metric === 'valor' ? nfCOP.format(value) : value)
+            },
+            grid: {
+              color: 'rgba(255,255,255,0.08)'
+            }
+          },
+          y: {
+            ticks: {
+              color: '#e8ecf1',
+              autoSkip: false
+            },
+            grid: {
+              color: 'rgba(255,255,255,0.08)'
+            }
+          }
         },
         plugins: {
           tooltip: {
@@ -134,8 +150,6 @@
       chart.data.labels = labels;
       chart.data.datasets[0].label = datasetLabel;
       chart.data.datasets[0].data = data;
-      chart.data.datasets[0].backgroundColor = bg;
-      chart.data.datasets[0].borderColor = border;
       chart.update();
     } else {
       chart = new Chart(canvas, cfg);
@@ -147,7 +161,7 @@
     let detalles = [];
     for (const u of urls) {
       try { detalles = coerceArray(await fetchJsonFresh(u)); break; }
-      catch (e) { /* probar siguiente */ }
+      catch { /* probar siguiente */ }
     }
     const rows = aggregateByProduct(detalles);
     const metric = rbValor?.checked ? 'valor' : 'unidades';

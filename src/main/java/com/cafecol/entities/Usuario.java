@@ -1,7 +1,6 @@
 package com.cafecol.entities;
 
 import jakarta.persistence.*;
-import jakarta.json.bind.annotation.JsonbTransient;
 
 @Entity
 @Table(name = "usuarios")
@@ -20,13 +19,36 @@ public class Usuario {
     @Column(nullable = false, length = 20)
     private String rol;
 
+    @Column(nullable = false, length = 60)
+    private String nombre;
+
+    @Column(nullable = false, length = 60)
+    private String apellido;
+
+    @Column(nullable = false, length = 120)
+    private String correo;
+
+    @Column(nullable = false, length = 15)
+    private String estado = "ACTIVO";
 
     public Usuario() {}
 
-    public Usuario(String nombreUsuario, String contraseña, String rol) {
+    public Usuario(String nombreUsuario, String contrasena, String rol) {
         this.nombreUsuario = nombreUsuario;
-        this.contrasena = contraseña;
+        this.contrasena = contrasena;
         this.rol = rol;
+    }
+
+    // Constructor conveniente con nuevos campos
+    public Usuario(String nombreUsuario, String contrasena, String rol,
+                   String nombre, String apellido, String correo, String estado) {
+        this.nombreUsuario = nombreUsuario;
+        this.contrasena = contrasena;
+        this.rol = rol;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.correo = correo;
+        this.estado = estado;
     }
 
     // Getters y Setters
@@ -41,4 +63,16 @@ public class Usuario {
 
     public String getRol() { return rol; }
     public void setRol(String rol) { this.rol = rol; }
+
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public String getApellido() { return apellido; }
+    public void setApellido(String apellido) { this.apellido = apellido; }
+
+    public String getCorreo() { return correo; }
+    public void setCorreo(String correo) { this.correo = correo; }
+
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 }

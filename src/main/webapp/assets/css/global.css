@@ -1,256 +1,316 @@
-/* ------------------------------
-   Estilo global
------------------------------- */
-
+/* Fuente */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-:root {
-    --bg-dark: #1e1b18;
-    --bg-soft: #26221e;
-    --bg-card: #2e2925;
-    --accent: #c69c6d; /* Café dorado */
-    --accent-hover: #d7b78f;
-    --text-light: #f2f2f2;
-    --text-muted: #c9c9c9;
+/* ===========================
+   Paleta Noir + Café/Dorado
+=========================== */
+:root{
+  --bg-dark:#0f0e0c;           /* fondo principal negro cálido */
+  --bg-soft:#161411;           /* superficie baja */
+  --bg-card:#1b1815;           /* tarjetas */
+  --line:rgba(255,255,255,.07);/* línea sutil */
+
+  --text:#f2f2f2;              /* texto primario */
+  --text-weak:#d5d1ca;         /* texto secundario */
+  --text-mute:#b3ada5;         /* texto suave */
+
+  --accent:#c9a46a;            /* dorado café */
+  --accent-600:#b7925a;        /* hover */
+  --accent-700:#a07f4e;        /* active */
+  --accent-glow:0 0 0 .28rem rgba(201,164,106,.28);
+
+  --danger:#ff6b6b;
+  --danger-700:#e35757;
+
+  --elev:0 10px 28px rgba(0,0,0,.42);
+  --elev-lg:0 18px 46px rgba(0,0,0,.52);
 }
 
-body {
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-    font-family: 'Inter', sans-serif;
+/* ===========================
+   Base
+=========================== */
+html,body{
+  background:var(--bg-dark);
+  color:var(--text);
+  font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+a{ color:var(--accent); text-decoration:none }
+a:hover{ color:var(--accent-600) }
+
+/* ===========================
+   Navbar
+=========================== */
+.navbar{
+  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.08)) , var(--bg-soft) !important;
+  border-bottom:1px solid var(--line);
+  backdrop-filter:saturate(120%) blur(6px);
+}
+.navbar-brand{
+  color:var(--text)!important;
+  font-weight:700;
+  letter-spacing:.2px;
+}
+.navbar-dark .navbar-nav .nav-link{ color:var(--text)!important }
+.navbar-dark .navbar-toggler{ border-color:var(--line) }
+.navbar-dark .navbar-toggler:focus{ box-shadow:var(--accent-glow) }
+
+/* ===========================
+   Botones (sin azul, tonos café)
+=========================== */
+.btn{
+  border-radius:.6rem;
+  font-weight:600;
+  letter-spacing:.2px;
+  transition:transform .12s ease, box-shadow .12s ease, background-color .12s ease, border-color .12s ease;
+}
+.btn:active{ transform:translateY(1px) }
+.btn:focus{ box-shadow:var(--accent-glow) }
+
+/* Primario en café oscuro */
+.btn-primary{
+  --bs-btn-color:#0e0c0a;
+  --bs-btn-bg:var(--accent-700);
+  --bs-btn-border-color:var(--accent-700);
+  --bs-btn-hover-bg:var(--accent-600);
+  --bs-btn-hover-border-color:var(--accent-600);
+  --bs-btn-active-bg:var(--accent);
+  --bs-btn-active-border-color:var(--accent);
+  --bs-btn-disabled-bg:color-mix(in srgb, var(--accent-700) 60%, #000);
+  --bs-btn-disabled-border-color:color-mix(in srgb, var(--accent-700) 60%, #000);
+  color:#0e0c0a;
+  background:var(--accent-700);
+  border-color:var(--accent-700);
+}
+.btn-primary:hover{
+  background:var(--accent-600);
+  border-color:var(--accent-600);
+}
+.btn-primary:active{
+  background:var(--accent);
+  border-color:var(--accent);
 }
 
-/* ------------------------------
-   NAVBAR
------------------------------- */
-.navbar {
-    background: var(--bg-soft) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
+/* Outline primary también en café */
+.btn-outline-primary{
+  --bs-btn-color:var(--accent-700);
+  --bs-btn-border-color:var(--accent-700);
+  --bs-btn-hover-bg:var(--accent-700);
+  --bs-btn-hover-border-color:var(--accent-700);
+  --bs-btn-active-bg:var(--accent-600);
+  --bs-btn-active-border-color:var(--accent-600);
+  color:var(--accent-700);
+  border-color:var(--accent-700);
+}
+.btn-outline-primary:hover{ color:#0e0c0a }
+
+/* Outline light y danger */
+.btn-outline-light{
+  border-color:var(--text-weak)!important;
+  color:var(--text)!important;
+}
+.btn-outline-light:hover{
+  background:var(--text-weak)!important;
+  color:#0e0c0a!important;
+}
+.btn-outline-danger{
+  border-color:var(--danger);
+  color:var(--danger);
+}
+.btn-outline-danger:hover{ background:var(--danger); color:#fff }
+
+/* Botones secundarios en café suave */
+.btn-outline-secondary{
+  border-color:var(--line);
+  color:var(--text);
+}
+.btn-outline-secondary:hover{
+  border-color:var(--accent-600);
+  color:var(--text);
+  background:rgba(201,164,106,.08);
 }
 
-.navbar-brand {
-    font-weight: 700;
-    color: var(--accent) !important;
+/* ===========================
+   Contenedores y tarjetas
+=========================== */
+.bg-white{ background:var(--bg-card)!important; color:var(--text)!important }
+.card{
+  background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(0,0,0,.08)) , var(--bg-card);
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:1rem;
+  box-shadow:var(--elev);
+}
+.shadow-sm{ box-shadow:var(--elev)!important }
+.hero-card{
+  background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(0,0,0,.1)) , var(--bg-card);
+  border:1px solid var(--line);
+  box-shadow:var(--elev-lg);
 }
 
-.navbar-dark .navbar-nav .nav-link {
-    color: var(--text-light) !important;
+/* ===========================
+   Producto card
+=========================== */
+.product-card{
+  background:var(--bg-card);
+  border:1px solid var(--line);
+  border-radius:1rem;
+  padding:18px;
+  color:var(--text);
+  box-shadow:var(--elev);
+  transition:transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+.product-card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--elev-lg);
+  border-color:rgba(255,255,255,.12);
+}
+.product-card .price{
+  color:var(--accent);
+  font-weight:800;
 }
 
-.btn-outline-light {
-    border-color: var(--accent) !important;
-    color: var(--accent) !important;
+/* ===========================
+   Formularios y modales
+=========================== */
+.form-control,.form-select{
+  background:var(--bg-soft);
+  border:1px solid rgba(255,255,255,.14);
+  color:var(--text);
+}
+.form-control::placeholder{ color:var(--text-mute) }
+.form-control:focus,.form-select:focus{
+  background:var(--bg-soft);
+  border-color:var(--accent);
+  box-shadow:var(--accent-glow);
+  color:var(--text);
+}
+.form-floating>label{ color:var(--text-weak) }
+
+.modal-content{
+  background:var(--bg-card);
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:1rem;
+}
+.modal-header,.modal-footer{ border-color:var(--line) }
+.btn-close{ filter:invert(1) brightness(1.2) }
+
+/* Modal Cliente específico */
+#modalCliente .modal-title{ color:var(--accent)!important; font-weight:700 }
+#modalCliente .card{
+  background:var(--bg-soft)!important;
+  border:1px solid var(--line)!important;
+}
+#modalCliente .list-group-item{
+  background:var(--bg-soft)!important;
+  color:var(--text)!important;
+  border-bottom:1px solid var(--line);
+}
+#modalCliente .text-muted{ color:var(--text-mute)!important }
+#modalCliente .invalid-feedback{ color:var(--danger)!important }
+
+/* ===========================
+   Offcanvas (Carrito)
+=========================== */
+.offcanvas{
+  background:var(--bg-card);
+  color:var(--text);
+  border-left:1px solid var(--line);
+}
+.list-group-item{
+  background:var(--bg-soft);
+  color:var(--text);
+  border:none;
+  border-bottom:1px solid var(--line);
 }
 
-.btn-outline-light:hover {
-    background-color: var(--accent);
-    color: #000;
+/* ===========================
+   Tablas
+=========================== */
+.table{
+  color:var(--text);
+  --bs-table-color:var(--text);
+}
+.table thead.table-dark{
+  --bs-table-bg:var(--bg-soft);
+  color:var(--text);
+  border-color:var(--line);
+}
+.table > :not(caption) > * > *{
+  background:var(--bg-card);
+  border-color:var(--line);
 }
 
-/* ------------------------------
-   BOTONES GENERALES
------------------------------- */
-.btn-primary {
-    background-color: var(--accent);
-    border-color: var(--accent);
-    color: #000;
-    font-weight: 600;
+/* ===========================
+   Toast flotante (negro, texto blanco)
+=========================== */
+.toast-container{ position:fixed; top:1rem; right:1rem; z-index:1080 }
+.toast.text-bg-primary{
+  background:#0c0d10 !important;
+  color:#ffffff !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+}
+.toast .btn-close{ filter:invert(1) brightness(1.2) }
+
+/* ===========================
+   Footer
+=========================== */
+footer{
+  background:var(--bg-soft);
+  padding:18px 0;
+  text-align:center;
+  border-top:1px solid var(--line);
+  color:var(--text-weak);
 }
 
-.btn-primary:hover {
-    background-color: var(--accent-hover);
-    border-color: var(--accent-hover);
+/* ===========================
+   Carrusel hero
+=========================== */
+.hero-carousel{
+  border-radius:1rem;
+  overflow:hidden;
+  border:1px solid var(--line);
+  box-shadow:var(--elev);
+}
+.hero-carousel .carousel-item{ height:420px }
+.hero-carousel .carousel-item .hero-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  filter:saturate(1.02) contrast(1.02);
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon{
+  filter:invert(1) drop-shadow(0 2px 6px rgba(0,0,0,.6));
+}
+.carousel-indicators [data-bs-target]{
+  background-color:var(--accent);
+  width:10px; height:10px; border-radius:50%;
+  opacity:.68;
+}
+.carousel-indicators .active{ opacity:1 }
+
+@media (max-width:576px){
+  .hero-carousel .carousel-item{ height:280px }
 }
 
-.btn-outline-danger {
-    border-color: #ff6b6b;
-    color: #ff6b6b;
+/* ===========================
+   Foco accesible
+=========================== */
+.btn:focus-visible,
+.form-control:focus-visible,
+.form-select:focus-visible,
+.navbar-toggler:focus-visible{
+  outline:none;
+  box-shadow:var(--accent-glow);
 }
 
-.btn-outline-danger:hover {
-    background-color: #ff6b6b;
-    color: #fff;
-}
-
-/* ------------------------------
-   HERO
------------------------------- */
-.hero-card {
-    background: var(--bg-card);
-    color: var(--text-light);
-    border: 1px solid rgba(255,255,255,0.05);
-    box-shadow: 0 0 25px rgba(0,0,0,0.25);
-}
-
-/* ------------------------------
-   PRODUCTOS
------------------------------- */
-.product-card {
-    background: var(--bg-card);
-    border: none;
-    border-radius: 12px;
-    padding: 18px;
-    color: var(--text-light);
-    box-shadow: 0 0 12px rgba(0,0,0,0.35);
-    transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 0 25px rgba(0,0,0,0.6);
-}
-
-.product-card .price {
-    color: var(--accent);
-    font-weight: 700;
-}
-
-/* ------------------------------
-   MODALES + FORMULARIOS
------------------------------- */
-.modal-content {
-    background: var(--bg-card);
-    color: var(--text-light);
-    border: 1px solid rgba(255,255,255,0.05);
-}
-
-.form-control {
-    background-color: var(--bg-soft);
-    border: 1px solid rgba(255,255,255,0.15);
-    color: var(--text-light);
-}
-
-.form-control:focus {
-    background-color: var(--bg-soft);
-    border-color: var(--accent);
-    box-shadow: 0 0 0 0.2rem rgba(198, 156, 109, 0.25);
-}
-
-.form-floating > label {
-    color: var(--text-muted);
-}
-
-/* ------------------------------
-   MODAL CLIENTE (Tema oscuro)
------------------------------- */
-#modalCliente .modal-content {
-    background: var(--bg-card) !important;
-    color: var(--text-light) !important;
-    border: 1px solid rgba(255,255,255,0.05);
-}
-
-#modalCliente .modal-header {
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-#modalCliente .modal-title {
-    color: var(--accent) !important;
-    font-weight: 600;
-}
-
-#modalCliente .btn-close {
-    filter: invert(1) brightness(1.2);
-}
-
-#modalCliente .modal-body {
-    color: var(--text-light) !important;
-}
-
-#modalCliente .form-floating > label {
-    color: var(--text-muted) !important;
-}
-
-#modalCliente .form-control {
-    background-color: var(--bg-soft) !important;
-    color: var(--text-light) !important;
-    border: 1px solid rgba(255,255,255,0.15) !important;
-}
-
-#modalCliente .form-control:focus {
-    background-color: var(--bg-soft) !important;
-    border-color: var(--accent) !important;
-    box-shadow: 0 0 0 0.25rem rgba(198,156,109,0.25) !important;
-}
-
-#modalCliente .invalid-feedback {
-    color: #ff6b6b !important;
-}
-
-#modalCliente .card {
-    background: var(--bg-soft) !important;
-    color: var(--text-light) !important;
-    border-radius: 10px;
-}
-
-#modalCliente .card-body h6 {
-    color: var(--accent);
-    font-weight: 600;
-}
-
-#modalCliente .list-group-item {
-    background: var(--bg-soft) !important;
-    color: var(--text-light) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-#modalCliente .text-muted {
-    color: rgba(255,255,255,0.6) !important;
-}
-
-#modalCliente .modal-footer {
-    border-top: 1px solid rgba(255,255,255,0.08);
-}
-
-#modalCliente .btn-outline-secondary {
-    border-color: rgba(255,255,255,0.3) !important;
-    color: var(--text-light) !important;
-}
-
-#modalCliente .btn-outline-secondary:hover {
-    background: rgba(255,255,255,0.1) !important;
-}
-
-#modalCliente .btn-primary {
-    background-color: var(--accent) !important;
-    border-color: var(--accent) !important;
-    color: #000 !important;
-}
-
-#modalCliente .btn-primary:hover {
-    background-color: var(--accent-hover) !important;
-}
-
-/* ------------------------------
-   OFFCANVAS (Carrito)
------------------------------- */
-.offcanvas {
-    background: var(--bg-card);
-    color: var(--text-light);
-}
-
-.list-group-item {
-    background: var(--bg-soft);
-    color: var(--text-light);
-    border: none;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-/* ------------------------------
-   FOOTER
------------------------------- */
-footer {
-    background: var(--bg-soft);
-    padding: 18px 0;
-    text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    color: var(--text-muted);
-}
-
-footer a {
-    color: var(--accent);
-    text-decoration: none;
-}
-
-footer a:hover {
-    color: var(--accent-hover);
-}
+/* ===========================
+   Utilidades
+=========================== */
+.text-muted{ color:var(--text-mute)!important }
+.border-soft{ border-color:var(--line)!important }

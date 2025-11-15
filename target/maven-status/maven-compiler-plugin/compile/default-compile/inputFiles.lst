@@ -11,12 +11,14 @@ C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\re
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\resources\DetallePedidoResource.java
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\resources\EpaycoResource.java
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\resources\JAXRSConfiguration.java
+C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\resources\NotificacionResource.java
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\resources\PedidoResource.java
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\resources\ProductoResource.java
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\resources\UsuarioResource.java
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\service\CarritoService.java
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\service\ClienteService.java
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\service\DetallePedidoService.java
+C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\service\NotificacionService.java
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\service\PedidoService.java
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\service\ProductoService.java
 C:\Users\theza\Desktop\DevU\BACK_END\sistemaCafeCol\src\main\java\com\cafecol\service\UsuarioService.java

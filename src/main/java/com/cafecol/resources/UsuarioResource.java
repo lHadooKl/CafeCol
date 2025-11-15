@@ -24,6 +24,10 @@ public class UsuarioResource {
     @Context
     private UriInfo uriInfo;
 
+    // Utils básicos para normalizar
+    private String nn(String s) { return s == null ? "" : s.trim(); }
+    private String up(String s) { return nn(s).toUpperCase(); }
+
     @GET
     public List<Usuario> listar() {
         return usuarioService.findAll();
@@ -49,9 +53,36 @@ public class UsuarioResource {
         return Response.ok(u).build();
     }
 
+    // Nuevo: búsqueda por correo
+    @GET
+    @Path("by-email/{correo}")
+    public Response obtenerPorCorreo(@PathParam("correo") String correo) {
+        Usuario u = usuarioService.findByCorreo(correo);
+        if (u == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.ok(u).build();
+    }
+
     @POST
     public Response crear(Usuario u) {
         try {
+            // Normalización mínima (el servicio también valida, esto mejora mensajes rápidos)
+            u.setNombreUsuario(nn(u.getNombreUsuario()));
+            u.setRol(up(u.getRol()));
+            u.setNombre(nn(u.getNombre()));
+            u.setApellido(nn(u.getApellido()));
+            u.setCorreo(nn(u.getCorreo()));
+            if (nn(u.getEstado()).isEmpty()) u.setEstado("ACTIVO");
+
+            // Chequeos de unicidad previos para mejor UX
+            if (usuarioService.findByNombreUsuario(u.getNombreUsuario()) != null) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("El nombre de usuario ya existe").build();
+            }
+            if (usuarioService.findByCorreo(u.getCorreo()) != null) {
+                return Response.status(Response.Status.BAD_REQUEST).entity("El correo ya está registrado").build();
+            }
+
             Usuario creado = usuarioService.create(u);
             UriBuilder ub = uriInfo.getAbsolutePathBuilder();
             return Response.created(ub.path(String.valueOf(creado.getIdUsuario())).build())
@@ -70,6 +101,30 @@ public class UsuarioResource {
             if (existente == null) {
                 return Response.status(Response.Status.NOT_FOUND).build();
             }
+
+            // Normalización mínima
+            if (u.getNombreUsuario() != null) u.setNombreUsuario(nn(u.getNombreUsuario()));
+            if (u.getRol() != null) u.setRol(up(u.getRol()));
+            if (u.getNombre() != null) u.setNombre(nn(u.getNombre()));
+            if (u.getApellido() != null) u.setApellido(nn(u.getApellido()));
+            if (u.getCorreo() != null) u.setCorreo(nn(u.getCorreo()));
+            if (u.getEstado() != null) u.setEstado(up(nn(u.getEstado())));
+
+            // Unicidad nombreUsuario si cambia
+            if (u.getNombreUsuario() != null && !u.getNombreUsuario().equals(existente.getNombreUsuario())) {
+                Usuario otro = usuarioService.findByNombreUsuario(u.getNombreUsuario());
+                if (otro != null && otro.getIdUsuario() != id) {
+                    return Response.status(Response.Status.BAD_REQUEST).entity("El nombre de usuario ya existe").build();
+                }
+            }
+            // Unicidad correo si cambia
+            if (u.getCorreo() != null && !u.getCorreo().equals(existente.getCorreo())) {
+                Usuario otroCorreo = usuarioService.findByCorreo(u.getCorreo());
+                if (otroCorreo != null && otroCorreo.getIdUsuario() != id) {
+                    return Response.status(Response.Status.BAD_REQUEST).entity("El correo ya está registrado").build();
+                }
+            }
+
             u.setIdUsuario(id);
             Usuario actualizado = usuarioService.update(u);
             return Response.ok(actualizado).build();

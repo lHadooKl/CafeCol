@@ -1,21 +1,18 @@
 <!doctype html>
-<html lang="es" data-bs-theme="light">
+<html lang="es" data-bs-theme="dark">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CafeCol · Administración</title>
+
+    <!-- Bootstrap primero -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-      /* Wrapper fijo para evitar crecimiento infinito del canvas */
-      .chart-wrapper {
-        position: relative;                 /* necesario para sizing correcto */
-        height: 360px;                      /* ajusta a tu diseño */
-      }
-      /* Opcional: altura responsiva con límites
-         .chart-wrapper { height: clamp(260px, 40vh, 600px); } */
-    </style>
+
+    <!-- Tu tema oscuro global -->
+    <link href="../assets/css/adminCss.css?v=1.0.0" rel="stylesheet">
   </head>
   <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
         <a class="navbar-brand" href="index_admin.html">CafeCol · Admin</a>
@@ -31,6 +28,7 @@
     </nav>
 
     <main class="container py-5">
+      <!-- Encabezado -->
       <div class="p-4 bg-white rounded-3 shadow-sm mb-4">
         <h1 class="h4 mb-1">Panel de administración</h1>
         <p class="text-muted mb-0">Elige un módulo para gestionar.</p>
@@ -98,6 +96,7 @@
         </div>
       </section>
 
+      <!-- Accesos rápidos -->
       <div class="row g-3">
         <div class="col-sm-6 col-lg-4">
           <a href="productos-admin.html" class="btn btn-outline-primary w-100 py-3">Productos</a>
@@ -106,12 +105,12 @@
           <a href="pedidos-admin.html" class="btn btn-outline-secondary w-100 py-3">Pedidos</a>
         </div>
         <div class="col-sm-6 col-lg-4">
-          <a href="usuarios.html" class="btn btn-outline-dark w-100 py-3">Usuarios</a>
+          <a href="usuarios-admin.html" class="btn btn-outline-dark w-100 py-3">Usuarios</a>
         </div>
       </div>
     </main>
 
-    <!-- Orden correcto: guard, config, Chart.js, scripts de admin, Bootstrap -->
+    <!-- Scripts: guard, config, Chart.js, lógica admin, Bootstrap -->
     <script src="../assets/js/admin-guard.js"></script>
     <script src="../assets/js/api-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

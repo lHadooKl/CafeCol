@@ -85,25 +85,47 @@ public class PedidoService {
         }
     }
 
-    // Actualizar pedido (solo estado/total/metadatos)
+   
+
+    // Actualizar pedido (parcial y seguro)
     public Pedido update(Pedido pedido) {
-        try {
-            Pedido existente = em.find(Pedido.class, pedido.getIdPedido());
-            if (existente == null) {
-                throw new IllegalArgumentException("No se encontró el pedido con ID: " + pedido.getIdPedido());
-            }
-            if (pedido.getEstado() != null && !pedido.getEstado().isBlank()) {
-                existente.setEstado(pedido.getEstado());
-            }
-            if (pedido.getTotal() != 0) {
-                existente.setTotal(pedido.getTotal());
-            }
-            // agrega aquí set de referenciaPago/transaccion si aplica
-            return em.merge(existente);
-        } catch (Exception e) {
-            throw new PersistenceException("No se pudo actualizar el pedido: " + e.getMessage(), e);
+      try {
+        Pedido existente = em.find(Pedido.class, pedido.getIdPedido());
+        if (existente == null) {
+          throw new IllegalArgumentException("No se encontró el pedido con ID: " + pedido.getIdPedido());
         }
+
+        // Estado (opcional)
+        if (pedido.getEstado() != null && !pedido.getEstado().isBlank()) {
+          String nuevo = pedido.getEstado().trim().toUpperCase();
+          // set permitido (ajústalo a tus reglas reales)
+          java.util.Set<String> permitidos = java.util.Set.of("PENDIENTE","ACEPTADO","GESTIONADO","CERRADO","PAGADO");
+          if (!permitidos.contains(nuevo)) {
+            throw new IllegalArgumentException("Estado inválido: " + nuevo);
+          }
+          // regla opcional: no reabrir cerrado
+          String actual = existente.getEstado() == null ? "" : existente.getEstado().toUpperCase();
+          if ("CERRADO".equals(actual) && !"CERRADO".equals(nuevo)) {
+            throw new IllegalStateException("No se puede cambiar un pedido en estado CERRADO");
+          }
+          existente.setEstado(nuevo);
+        }
+
+        // Total (opcional): respeta 0.0 si llega, usa null-check
+        if (pedido.getTotal() != null) {
+          existente.setTotal(pedido.getTotal());
+        }
+
+        // No tocar cliente/detalles aquí
+
+        em.flush();
+        return existente;
+
+      } catch (Exception e) {
+        throw new jakarta.persistence.PersistenceException("No se pudo actualizar el pedido: " + e.getMessage(), e);
+      }
     }
+
 
     // Listar
     public List<Pedido> findAll() {

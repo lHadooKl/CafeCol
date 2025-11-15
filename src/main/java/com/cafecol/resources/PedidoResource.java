@@ -64,6 +64,33 @@ public class PedidoResource {
                     .build();
         }
     }
+    
+    @PUT
+    @Path("{id}/estado")
+    public Response actualizarSoloEstado(@PathParam("id") int id, EstadoDTO dto) {
+      try {
+        if (dto == null || dto.estado == null || dto.estado.isBlank()) {
+          return Response.status(Response.Status.BAD_REQUEST)
+            .entity(new ApiError("Datos inválidos", "El estado es requerido")).build();
+        }
+        Pedido p = new Pedido();
+        p.setIdPedido(id);
+        p.setEstado(dto.estado);
+        // Si luego agregas guiaEnvio en Pedido, pásala aquí:
+        // p.setGuiaEnvio(dto.guia);
+
+        Pedido actualizado = pedidoService.update(p);
+        return Response.ok(actualizado).build();
+
+      } catch (RuntimeException ex) {
+        return Response.status(Response.Status.BAD_REQUEST)
+          .entity(new ApiError("No se pudo actualizar el estado", ex.getMessage()))
+          .build();
+      }
+    }
+
+    public static class EstadoDTO { public String estado; public String guia; }
+
 
     // 🔹 Obtener todos los pedidos
     @GET
