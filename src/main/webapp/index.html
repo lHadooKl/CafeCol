@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="es" data-bs-theme="light">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CafeCol · Inicio</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/global.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">CafeCol</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMain" aria-controls="navMain" aria-expanded="false" aria-label="Abrir navegación">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navMain">
+
+          <!-- Empuja el resto a la derecha -->
+          <div class="ms-auto d-flex align-items-center gap-3">
+            <button class="btn btn-outline-light position-relative" type="button"
+                    data-bs-toggle="offcanvas" data-bs-target="#offcanvasCarrito" aria-controls="offcanvasCarrito">
+              Carrito
+              <span id="cartBadge" class="badge bg-primary position-absolute top-0 start-100 translate-middle rounded-pill">0</span>
+            </button>
+            <a href="login.html" class="btn btn-primary">Iniciar sesión</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <main class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="p-5 hero-card rounded-3 text-center">
+            <h1 class="display-5 mb-3">¡Bienvenido!</h1>
+            <p class="lead mb-4">Este es el panel inicial de nuestra tienda CafeCol.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Sección: Productos -->
+    <section class="container py-4">
+      <h2 class="h4 mb-3">Productos</h2>
+
+      <div id="productosAlert" class="alert alert-danger d-none" role="alert">
+        No se pudieron cargar los productos.
+      </div>
+
+      <div id="productosSpinner" class="text-center py-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+
+      <div id="productosGrid" class="row g-4"></div>
+    </section>
+
+    <!-- Offcanvas: Carrito -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCarrito" aria-labelledby="offcanvasCarritoLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasCarritoLabel">Carrito de compras</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+      </div>
+      <div class="offcanvas-body d-flex flex-column">
+        <div id="carritoAlert" class="alert alert-danger d-none" role="alert">No se pudo cargar el carrito.</div>
+        <ul id="carritoLista" class="list-group mb-3"></ul>
+        <div class="mt-auto">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <strong>Total:</strong>
+            <span id="carritoTotal" class="fw-bold">$0.00</span>
+          </div>
+          <div class="d-flex gap-2">
+            <button id="btnVaciar" class="btn btn-outline-danger w-50" type="button">Vaciar</button>
+            <button id="btnCheckout" class="btn btn-primary w-50" type="button">Comprar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal: Registro de Cliente + Resumen -->
+    <div class="modal fade" id="modalCliente" tabindex="-1" aria-labelledby="modalClienteLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content shadow">
+          <form id="clienteForm" class="needs-validation" novalidate>
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalClienteLabel">Datos del Cliente</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="container-fluid">
+                <div class="row g-4">
+                  <!-- Columna izquierda: Formulario -->
+                  <div class="col-md-7">
+                    <div class="row g-3">
+                      <div class="col-md-6">
+                        <div class="form-floating">
+                          <input type="text" id="nombre" class="form-control" placeholder="Nombre" required>
+                          <label for="nombre">Nombre</label>
+                          <div class="invalid-feedback">Ingresa tu nombre.</div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-floating">
+                          <input type="text" id="apellido" class="form-control" placeholder="Apellido" required>
+                          <label for="apellido">Apellido</label>
+                          <div class="invalid-feedback">Ingresa tu apellido.</div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-floating">
+                          <input type="email" id="correo" class="form-control" placeholder="nombre@correo.com" required>
+                          <label for="correo">Correo</label>
+                          <div class="invalid-feedback">Ingresa un correo válido.</div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6">
+                        <div class="form-floating">
+                          <input type="text" id="telefono" class="form-control" placeholder="3001234567">
+                          <label for="telefono">Teléfono</label>
+                        </div>
+                      </div>
+
+                      <div class="col-12">
+                        <div class="form-floating">
+                          <input type="text" id="direccion" class="form-control" placeholder="Calle 123 #45-67">
+                          <label for="direccion">Dirección</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Columna derecha: Resumen de compra -->
+                  <div class="col-md-5">
+                    <div class="card border-0 shadow-sm">
+                      <div class="card-body">
+                        <h6 class="mb-2">Resumen de compra</h6>
+                        <ul id="resumenCarritoList" class="list-group list-group-flush mb-3 small">
+                          <!-- Items -->
+                        </ul>
+                        <div class="d-flex justify-content-between align-items-center border-top pt-2">
+                          <strong>Total</strong>
+                          <span id="resumenCarritoTotal" class="fw-bold">$0.00</span>
+                        </div>
+                        <hr>
+                        <h6 class="mb-2">Datos del cliente</h6>
+                        <div class="small">
+                          <div><span class="text-muted">Nombre:</span> <span id="prevNombre">—</span></div>
+                          <div><span class="text-muted">Apellido:</span> <span id="prevApellido">—</span></div>
+                          <div><span class="text-muted">Correo:</span> <span id="prevCorreo">—</span></div>
+                          <div><span class="text-muted">Teléfono:</span> <span id="prevTelefono">—</span></div>
+                          <div><span class="text-muted">Dirección:</span> <span id="prevDireccion">—</span></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Fin columnas -->
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>  <!-- NUEVO: BOTÓN EPAYCO -->
+                <button id="btnPagarEpayco" type="button" class="btn btn-primary ms-2">
+                    Pagar con ePayco
+                </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal: Carrito vacío -->
+    <div class="modal fade" id="modalCarritoVacio" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content modal-empty-cart">
+          <div class="modal-header border-0">
+            <h5 class="modal-title">
+              <i class="bi bi-exclamation-triangle-fill me-2 text-accent"></i>
+              Carrito vacío
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body text-center py-4">
+            <p class="mb-0 modal-empty-text">
+              No tienes productos en el carrito.<br>
+              Agrega artículos para continuar con la compra.
+            </p>
+          </div>
+
+          <div class="modal-footer border-0 justify-content-center">
+            <button class="btn btn-primary px-4" data-bs-dismiss="modal">Entendido</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/api-config.js"></script>
+    <script src="assets/js/productos.js"></script>
+    <script src="assets/js/carrito.js"></script>
+    <script type="module" src="assets/js/cliente.js"></script>
+    
+    <script src="https://checkout.epayco.co/checkout.js"></script>
+    <script src="assets/js/checkoutEpayco.js"></script>
+    
+    <footer class="mt-5">
+        <div class="container">
+          <p class="mb-1">© 2025 CafeCol. Todos los derechos reservados.</p>
+          <p class="small">Proyecto</p>
+        </div>
+    </footer>
+  </body>
+</html>
