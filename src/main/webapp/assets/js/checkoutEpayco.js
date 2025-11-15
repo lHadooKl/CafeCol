@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       body: JSON.stringify(body)
     });
     if (!r.ok) {
+        
       const t = await r.text().catch(()=>"");
       throw new Error(`HTTP ${r.status} ${t}`);
     }
